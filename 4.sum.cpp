@@ -35,17 +35,21 @@ int main(int, char**)
     istream_iterator<int> start(ifs), end;
     vector<int> num(start, end);
 
-    cerr << *min_element(num.begin(), num.end()) << " "
-            << *max_element(num.begin(), num.end()) << " "
-            << double(accumulate(num.begin(), num.end(), 0)) / num.size() << " "
-       << endl;
+    cout << num.size() << endl;
+
+    int min, max, avg;
+    min = *min_element(num.begin(), num.end());
+    max = *max_element(num.begin(), num.end());
+    avg = double(accumulate(num.begin(), num.end(), 0)) / num.size();
+
+    cout << min << " " << max << " " << avg << endl;
 
     // Fill Results structure with your results for check
     onhands::Results r{
         *min_element(num.begin(), num.end()),
         *max_element(num.begin(), num.end()),
         accumulate(num.begin(), num.end(), 0),
-        num.size(),
+        static_cast<unsigned int>(num.size()),
         double(accumulate(num.begin(), num.end(), 0) / num.size())
     };
     ifs.close();

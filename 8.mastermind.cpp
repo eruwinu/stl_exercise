@@ -62,15 +62,15 @@ bool evaluate(std::vector<Color> code, std::vector<Color>& guess)
     std::vector<int> result;
     result.resize(code.size());
     std::transform(code.begin(), code.end(), guess.begin(), result.begin(), std::minus<int>());
-    int blacks = std::count(result.begin(), result.end(), 0);
+    int blacks = std::count(result.begin(), result.end(), 0); // correct color, correct position = 0 numeric difference
     std::cout << blacks << " blacks, ";
 
     std::sort(code.begin(), code.end());
     std::sort(guess.begin(), guess.end());
     std::vector<int>::iterator it;
     it = std::set_difference(code.begin(), code.end(), guess.begin(), guess.end(), result.begin());
-    result.resize(it - result.begin());
-    int whites = code.size() - result.size() - blacks;
+    result.resize(it - result.begin()); // sorted set difference = appears in code but doesn't appear in guess
+    int whites = code.size() - result.size() - blacks; // complement of sorted set difference minus those that are in the correct position (blacks) = correct color, wrong position = whites
     std::cout << whites << " whites" << std::endl;
 
     return (blacks == 4);
@@ -88,6 +88,8 @@ int main()
     std::cout << std::endl;
 
     std::vector<Color> code{Red, Orange, Yellow, Green, Blue, Violet};
+    code.insert(code.end(), code.begin(), code.end()); // 1x2 = 2
+    code.insert(code.end(), code.begin(), code.end()); // 2x2 = 4
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::shuffle(code.begin(), code.end(), std::default_random_engine(seed));
     code.resize(4);

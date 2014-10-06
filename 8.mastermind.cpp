@@ -10,7 +10,7 @@ std::vector<std::string> ColorName { "Red", "Orange", "Yellow", "Green", "Blue",
 
 std::ostream& operator<<(std::ostream& os, Color c)
 {
-    os << ColorName[static_cast<int>(c)];
+    os << ColorName[c];
     return os;
 }
 

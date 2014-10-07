@@ -28,30 +28,25 @@ public:
 
 using namespace std;
 
-int main(int, char**)
+int main()
 {
     // Open file sum.txt, print min, max, and avg value from it to stderr.
     ifstream ifs("sum.txt", ifstream::in);
     istream_iterator<int> start(ifs), end;
     vector<int> num(start, end);
 
-    cout << num.size() << endl;
-
-    int min, max, avg;
+    int min, max, sum;
+    double avg;
     min = *min_element(num.begin(), num.end());
     max = *max_element(num.begin(), num.end());
-    avg = double(accumulate(num.begin(), num.end(), 0)) / num.size();
+    sum = accumulate(num.begin(), num.end(), 0);
+    avg = double(sum/num.size());
 
-    cout << min << " " << max << " " << avg << endl;
+    cerr << min << " " << max << " " << avg << endl;
 
     // Fill Results structure with your results for check
-    onhands::Results r{
-        *min_element(num.begin(), num.end()),
-        *max_element(num.begin(), num.end()),
-        accumulate(num.begin(), num.end(), 0),
-        static_cast<unsigned int>(num.size()),
-        double(accumulate(num.begin(), num.end(), 0) / num.size())
-    };
+    onhands::Results r{min, max, sum, static_cast<unsigned>(num.size()), avg};
     ifs.close();
     assert(r.check());
+    return 0;
 }
